@@ -1,0 +1,14 @@
+@use "../../styles/variables" as v;
+
+.calendar {
+  display: flex;
+  flex-direction: column;
+  width: 20rem;
+  border: 1px solid red;
+
+  &-table-header {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    color: v.$secondary-foreground;
+  }
+}
