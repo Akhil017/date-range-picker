@@ -13,7 +13,7 @@
     background-color: #fff;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
-    &-calendar > div:first-child {
+    & > div:nth-child(2) {
       border-right: 1px solid v.$border;
     }
 

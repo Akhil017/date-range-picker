@@ -2,6 +2,7 @@ import { useState } from "react";
 import CalendarDays from "./calendar-days";
 import "./calendar.scss";
 import { Icons } from "../../icons";
+import { useRangePickerContext } from "../range-picker-context";
 
 const WEEKDAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 const MONTHS = [
@@ -19,8 +20,19 @@ const MONTHS = [
   "Dec",
 ];
 
-export default function Calendar() {
-  const [currentDay, setCurrentDay] = useState(new Date());
+type CalendarProps = {
+  index: 0 | 1;
+};
+
+export default function Calendar({ index }: CalendarProps) {
+  const { defaultDay } = useRangePickerContext();
+  const [currentDay, setCurrentDay] = useState(
+    new Date(
+      defaultDay.getFullYear(),
+      defaultDay.getMonth() + index,
+      defaultDay.getDay()
+    )
+  );
 
   console.log({ currentDay });
 
