@@ -10,7 +10,7 @@ const DateRangeInput = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ ...props }, ref) => {
-  const { selectedRange } = useRangePickerContext();
+  const { selectedRange, setSelectedRange } = useRangePickerContext();
 
   const formattedFromDate = getFormattedDate(selectedRange?.from);
   const formattedToDate = getFormattedDate(selectedRange?.to);
@@ -19,10 +19,25 @@ const DateRangeInput = React.forwardRef<
     formattedToDate || DEFAULTFORMAT
   }`;
 
+  const showClose = selectedRange.from && selectedRange.to;
+
+  const handleClearInput = (e: React.MouseEvent<HTMLElement>) => {
+    setSelectedRange({ from: null, to: null });
+    e.stopPropagation();
+  };
+
   return (
     <div className="range-picker-input" {...props} ref={ref}>
       <input value={processed} />
-      <Icons.calendar />
+      <div>
+        {showClose ? (
+          <button onClick={handleClearInput}>
+            <Icons.close />
+          </button>
+        ) : (
+          <Icons.calendar />
+        )}
+      </div>
     </div>
   );
 });

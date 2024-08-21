@@ -20,9 +20,22 @@
     outline: 2px solid v.$ring;
   }
 
-  svg {
+  div {
     position: absolute;
     right: 4px;
+  }
+
+  button {
+    all: unset;
+    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  svg {
+    vertical-align: middle;
     color: v.$muted-foreground;
     width: 20px;
     height: 20px;
