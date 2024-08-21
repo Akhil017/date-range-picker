@@ -14,4 +14,4 @@ export const MONTHS = [
   "Dec",
 ];
 
-export const DEFAULTFORMAT = "MM/DD/YYYY";
+export const DEFAULTFORMAT = "YYYY-MM-DD";

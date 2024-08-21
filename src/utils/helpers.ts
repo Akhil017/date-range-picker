@@ -6,7 +6,9 @@ export function getMonthAndYear(date: Date) {
 
 export function getFormattedDate(date: Date | null) {
   if (!date) return "";
-  return `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
+  return `${date.getFullYear()}-${(date.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
 }
 
 export function getCurrentDay(date: Date | null, index: number = 0) {
@@ -28,4 +30,24 @@ export function getDifferenceInMonth(dateFrom: Date, dateTo: Date) {
     dateFrom.getMonth() +
     12 * (dateTo.getFullYear() - dateFrom.getFullYear())
   );
+}
+
+export function getWeekendsByRange(dateFrom: Date, dateTo: Date) {
+  const weekends: string[] = [];
+  const current = new Date(dateFrom);
+  while (current < dateTo) {
+    if (current.getDay() === 0 || current.getDay() === 6) {
+      const formattedWeekend = getFormattedDate(current);
+      weekends.push(formattedWeekend);
+      if (current.getDay() === 0) {
+        current.setDate(current.getDate() + 6);
+      } else {
+        current.setDate(current.getDate() + 1);
+      }
+    } else {
+      current.setDate(current.getDate() + 1);
+    }
+  }
+
+  return weekends;
 }

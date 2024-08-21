@@ -11,6 +11,7 @@ import {
   getFormattedDate,
   getNextMonth,
   getPreviousMonth,
+  getWeekendsByRange,
 } from "@/utils/helpers";
 import { DEFAULTFORMAT } from "@/utils/constants";
 
@@ -67,12 +68,16 @@ export default function RangePicker({
 
   const handleOnOk = () => {
     if (selectedRange?.from && selectedRange?.to) {
+      const weekends = getWeekendsByRange(
+        selectedRange?.from,
+        selectedRange?.to
+      );
       onOk([
         [
-          selectedRange?.from?.toDateString(),
-          selectedRange?.to?.toDateString(),
+          getFormattedDate(selectedRange.from),
+          getFormattedDate(selectedRange.to),
         ],
-        [],
+        weekends,
       ]);
     }
     setIsOpen(false);
@@ -140,6 +145,7 @@ export default function RangePicker({
               </div>
               <button
                 className="range-picker-popover-okbtn"
+                disabled={!selectedRange?.from || !selectedRange?.to}
                 onClick={() => handleOnOk()}
               >
                 Ok
