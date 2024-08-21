@@ -3,22 +3,8 @@ import CalendarDays from "./calendar-days";
 import "./calendar.scss";
 import { Icons } from "../../icons";
 import { useRangePickerContext } from "../range-picker-context";
-
-const WEEKDAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-const MONTHS = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
+import { WEEKDAYS } from "@/utils/constants";
+import { getMonthAndYear } from "@/utils/helpers";
 
 type CalendarProps = {
   index: 0 | 1;
@@ -56,9 +42,7 @@ export default function Calendar({ index }: CalendarProps) {
     );
   };
 
-  const monthAndYear = `${
-    MONTHS[currentDay.getMonth()]
-  } ${currentDay.getFullYear()}`;
+  const monthAndYear = getMonthAndYear(currentDay);
 
   return (
     <div className="calendar">

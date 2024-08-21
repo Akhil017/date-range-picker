@@ -6,6 +6,9 @@ import {
   RangePickerProvider,
   type SelectedRange,
 } from "./range-picker-context";
+import { getFormattedDate } from "@/utils/helpers";
+
+const defaultFormat = "MM/DD/YYYY";
 
 export default function RangePicker() {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,6 +18,9 @@ export default function RangePicker() {
     to: null,
   });
 
+  const formattedFromDate = getFormattedDate(selectedRange?.from);
+  const formattedToDate = getFormattedDate(selectedRange?.to);
+
   return (
     <RangePickerProvider
       value={{ defaultDay, setDefaultDay, selectedRange, setSelectedRange }}
@@ -23,14 +29,22 @@ export default function RangePicker() {
         <RangePickerInput onClick={() => setIsOpen((prev) => !prev)} />
         {isOpen && (
           <div className="range-picker-popover">
-            <div className="range-picker-popover-header">header</div>
+            <div className="range-picker-popover-header">
+              {formattedFromDate || defaultFormat} -{" "}
+              {formattedToDate || defaultFormat}
+            </div>
             <div>
               <Calendar index={0} />
             </div>
             <div>
               <Calendar index={1} />
             </div>
-            <div className="range-picker-popover-footer">footer</div>
+            <div className="range-picker-popover-footer">
+              <div className="range-picker-popover-predefinedrange">
+                predefined
+              </div>
+              <button className="range-picker-popover-okbtn">Ok</button>
+            </div>
           </div>
         )}
       </div>

@@ -9,7 +9,6 @@
     display: grid;
     width: max-content;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding-block: 0.5rem;
     background-color: #fff;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
@@ -19,16 +18,40 @@
 
     &-header {
       border-bottom: 1px solid v.$border;
+      font-size: 14px;
+      color: v.$foreground;
+      padding: 0.5rem;
     }
 
     &-footer {
       border-top: 1px solid v.$border;
+      display: flex;
+      padding: 1rem;
     }
 
     &-footer,
     &-header {
       grid-column: span 2 / span 2;
-      padding-inline: 0.5rem;
+    }
+
+    &-predefinedrange {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    &-okbtn {
+      all: unset;
+      font-size: 14px;
+      background-color: v.$primary;
+      color: v.$primary-foreground;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+
+      &:hover {
+        opacity: 80%;
+      }
     }
   }
 }

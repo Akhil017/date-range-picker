@@ -15,7 +15,7 @@
     color: v.$muted-foreground;
     cursor: pointer;
 
-    &:hover {
+    &:not(&-from):not(&-to):hover {
       background-color: v.$secondary;
       border-radius: 0.25rem;
     }
@@ -27,6 +27,17 @@
 
     &-current-month {
       color: v.$foreground;
+    }
+
+    &-from,
+    &-to {
+      background-color: v.$primary;
+      color: v.$primary-foreground;
+      border-radius: 0.25rem;
+    }
+
+    &-inrange {
+      background-color: v.$accent;
     }
   }
 }

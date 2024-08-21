@@ -1,10 +1,25 @@
+import { useRangePickerContext } from "../../range-picker-context";
 import "./calendar-days.scss";
 
 type CalendarDaysProps = {
   currentDay: Date;
 };
 
+type Day = {
+  id: string;
+  isCurrentMonth: boolean;
+  isSelected: boolean;
+  date: Date;
+  isWeekend: boolean;
+  label: number;
+  isFrom: boolean;
+  isTo: boolean;
+  inRange: boolean;
+};
+
 export default function CalendarDays({ currentDay }: CalendarDaysProps) {
+  const { defaultDay, selectedRange, setSelectedRange } =
+    useRangePickerContext();
   // get the first day of the month
   const firstDateOfTheMonth = new Date(
     currentDay.getFullYear(),
@@ -31,26 +46,79 @@ export default function CalendarDays({ currentDay }: CalendarDaysProps) {
       id: firstDateOfTheMonth.toDateString(),
       isCurrentMonth: firstDateOfTheMonth.getMonth() === currentDay.getMonth(),
       isSelected:
-        firstDateOfTheMonth.toDateString() === currentDay.toDateString(),
+        firstDateOfTheMonth.toDateString() === defaultDay.toDateString(),
       date: new Date(firstDateOfTheMonth),
       isWeekend:
         firstDateOfTheMonth.getDay() === 0 ||
         firstDateOfTheMonth.getDay() === 6,
 
       label: firstDateOfTheMonth.getDate(),
+      isFrom:
+        firstDateOfTheMonth.toDateString() ===
+        selectedRange?.from?.toDateString(),
+      isTo:
+        firstDateOfTheMonth.toDateString() ===
+        selectedRange?.to?.toDateString(),
+      inRange:
+        (selectedRange?.from &&
+          firstDateOfTheMonth > selectedRange?.from &&
+          selectedRange?.to &&
+          firstDateOfTheMonth < selectedRange?.to) ||
+        false,
     });
   }
 
+  const handleRangeSelection = (day: Day) => {
+    if (selectedRange?.from && selectedRange?.to) {
+      setSelectedRange({ from: day.date, to: null });
+      return;
+    }
+
+    if (selectedRange?.from === null) {
+      setSelectedRange((prev) => ({
+        ...prev,
+        from: day.date,
+      }));
+    } else {
+      // check if the selected date is greater than from
+      if (selectedRange?.from < day.date) {
+        setSelectedRange((prev) => ({
+          ...prev,
+          to: day.date,
+        }));
+      } else {
+        // if from greater and to already exist
+        // then from = day
+        // to = from
+
+        setSelectedRange((prev) => ({
+          to: prev.from,
+          from: day.date,
+        }));
+      }
+    }
+  };
+
   return (
     <div className="calendar-days">
-      {calendarDays.map(({ id, isSelected, label, isCurrentMonth }) => (
+      {calendarDays.map((day) => (
         <div
-          key={id}
-          className={`calendar-day ${isSelected && "calendar-day-selected"} ${
-            isCurrentMonth && "calendar-day-current-month"
+          key={day.id}
+          className={`calendar-day ${
+            day.isSelected && day.isCurrentMonth && "calendar-day-selected"
+          } ${day.isCurrentMonth && "calendar-day-current-month"} ${
+            day.isFrom && day.isCurrentMonth && "calendar-day-from"
+          } ${day.isTo && day.isCurrentMonth && "calendar-day-to"} ${
+            day.inRange &&
+            !day.isWeekend &&
+            day.isCurrentMonth &&
+            "calendar-day-inrange"
           }`}
+          onClick={() => {
+            handleRangeSelection(day);
+          }}
         >
-          {label}
+          {day.label}
         </div>
       ))}
     </div>
