@@ -6,7 +6,12 @@ import {
   RangePickerProvider,
   type SelectedRange,
 } from "./range-picker-context";
-import { getFormattedDate } from "@/utils/helpers";
+import {
+  getDifferenceInMonth,
+  getFormattedDate,
+  getNextMonth,
+  getPreviousMonth,
+} from "@/utils/helpers";
 import { DEFAULTFORMAT } from "@/utils/constants";
 
 export type SelectedRangeWithWeekend = [string[], string[]];
@@ -32,6 +37,11 @@ export default function RangePicker({
     to: null,
   });
 
+  const [leftCalendarDate, setLeftCalendarDate] = useState(new Date());
+  const [rightCalendarDate, setRightCalendarDate] = useState(
+    getNextMonth(new Date())
+  );
+
   const formattedFromDate = getFormattedDate(selectedRange?.from);
   const formattedToDate = getFormattedDate(selectedRange?.to);
 
@@ -45,7 +55,15 @@ export default function RangePicker({
   };
 
   const handleOnOk = () => {
-    onOk();
+    if (selectedRange?.from && selectedRange?.to) {
+      onOk([
+        [
+          selectedRange?.from?.toDateString(),
+          selectedRange?.to?.toDateString(),
+        ],
+        [],
+      ]);
+    }
     setIsOpen(false);
   };
 
@@ -62,10 +80,43 @@ export default function RangePicker({
               {formattedToDate || DEFAULTFORMAT}
             </div>
             <div>
-              <Calendar index={0} />
+              <Calendar
+                currenDate={leftCalendarDate}
+                handleNextBtnClick={() => {
+                  setLeftCalendarDate(getNextMonth(leftCalendarDate));
+                  //check if the difference is 1 if not change right calendar as well
+                  const monthDiff = getDifferenceInMonth(
+                    leftCalendarDate,
+                    rightCalendarDate
+                  );
+
+                  if (monthDiff === 1) {
+                    setRightCalendarDate(getNextMonth(rightCalendarDate));
+                  }
+                }}
+                handlePrevBtnClick={() => {
+                  setLeftCalendarDate(getPreviousMonth(leftCalendarDate));
+                }}
+              />
             </div>
             <div>
-              <Calendar index={1} />
+              <Calendar
+                currenDate={rightCalendarDate}
+                handleNextBtnClick={() => {
+                  setRightCalendarDate(getNextMonth(rightCalendarDate));
+                }}
+                handlePrevBtnClick={() => {
+                  setRightCalendarDate(getPreviousMonth(rightCalendarDate));
+                  const monthDiff = getDifferenceInMonth(
+                    leftCalendarDate,
+                    rightCalendarDate
+                  );
+
+                  if (monthDiff === 1) {
+                    setLeftCalendarDate(getPreviousMonth(leftCalendarDate));
+                  }
+                }}
+              />
             </div>
             <div className="range-picker-popover-footer">
               <div className="range-picker-popover-predefinedrange">

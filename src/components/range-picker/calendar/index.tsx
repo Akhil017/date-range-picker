@@ -1,41 +1,23 @@
 import { WEEKDAYS } from "@/utils/constants";
-import {
-  getCurrentDay,
-  getMonthAndYear,
-  getNextMonth,
-  getPreviousMonth,
-} from "@/utils/helpers";
-import { useState } from "react";
+import { getMonthAndYear } from "@/utils/helpers";
 import { Icons } from "../../icons";
-import { useRangePickerContext } from "../range-picker-context";
 import CalendarDays from "./calendar-days";
 import "./calendar.scss";
 
 type CalendarProps = {
-  index: 0 | 1;
+  currenDate: Date;
+  handleNextBtnClick: () => void;
+  handlePrevBtnClick: () => void;
 };
 
-export default function Calendar({ index }: CalendarProps) {
-  const { defaultDay, selectedRange } = useRangePickerContext();
+export default function Calendar({
+  currenDate,
+  handleNextBtnClick,
+  handlePrevBtnClick,
+}: CalendarProps) {
+  console.log({ currenDate });
 
-  const processedCurrentDay =
-    (index === 0
-      ? getCurrentDay(selectedRange?.from)
-      : getCurrentDay(selectedRange?.to)) || getCurrentDay(defaultDay, index);
-
-  const [currentDay, setCurrentDay] = useState(processedCurrentDay!);
-
-  console.log({ currentDay });
-
-  const handlePrevBtnClick = () => {
-    setCurrentDay(getPreviousMonth(currentDay));
-  };
-
-  const handleNextBtnClick = () => {
-    setCurrentDay(getNextMonth(currentDay));
-  };
-
-  const monthAndYear = getMonthAndYear(currentDay);
+  const monthAndYear = getMonthAndYear(currenDate);
 
   return (
     <div className="calendar">
@@ -57,7 +39,7 @@ export default function Calendar({ index }: CalendarProps) {
           ))}
         </div>
         <div className="calendar-table-body">
-          <CalendarDays currentDay={currentDay} />
+          <CalendarDays currentDay={currenDate} />
         </div>
       </div>
     </div>

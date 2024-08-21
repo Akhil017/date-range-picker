@@ -21,3 +21,11 @@ export function getNextMonth(date: Date) {
 export function getPreviousMonth(date: Date) {
   return new Date(date.getFullYear(), date.getMonth() - 1, date.getDate());
 }
+
+export function getDifferenceInMonth(dateFrom: Date, dateTo: Date) {
+  return (
+    dateTo.getMonth() -
+    dateFrom.getMonth() +
+    12 * (dateTo.getFullYear() - dateFrom.getFullYear())
+  );
+}
