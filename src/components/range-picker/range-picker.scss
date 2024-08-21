@@ -18,7 +18,7 @@
 
     &-header {
       border-bottom: 1px solid v.$border;
-      font-size: 14px;
+      font-size: v.$font-sm;
       color: v.$foreground;
       padding: 0.5rem;
     }
@@ -41,7 +41,7 @@
       gap: 1rem;
 
       p {
-        font-size: 14px;
+        font-size: v.$font-sm;
         color: v.$primary;
         cursor: pointer;
 
@@ -53,7 +53,7 @@
 
     &-okbtn {
       all: unset;
-      font-size: 14px;
+      font-size: v.$font-sm;
       background-color: v.$primary;
       color: v.$primary-foreground;
       padding: 0.25rem 0.5rem;

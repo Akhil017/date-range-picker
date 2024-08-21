@@ -44,6 +44,11 @@ export default function RangePicker({
     setIsOpen(false);
   };
 
+  const handleOnOk = () => {
+    onOk();
+    setIsOpen(false);
+  };
+
   return (
     <RangePickerProvider
       value={{ defaultDay, setDefaultDay, selectedRange, setSelectedRange }}
@@ -73,7 +78,7 @@ export default function RangePicker({
               </div>
               <button
                 className="range-picker-popover-okbtn"
-                onClick={() => onOk()}
+                onClick={() => handleOnOk()}
               >
                 Ok
               </button>

@@ -3,7 +3,7 @@
 .calendar {
   display: inline-flex;
   flex-direction: column;
-  font-size: 14px;
+  font-size: v.$font-sm;
   padding: 0.5rem;
 
   &-header {
