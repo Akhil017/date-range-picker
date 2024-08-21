@@ -51,6 +51,17 @@ export default function RangePicker({
       from: range.value[0],
       to: range.value[1],
     });
+    //check if month diff is greater than 1
+
+    const monthDiff = getDifferenceInMonth(range.value[0], range.value[1]);
+
+    if (monthDiff >= 1) {
+      setLeftCalendarDate(range.value[0]);
+      setRightCalendarDate(range.value[1]);
+    } else {
+      setLeftCalendarDate(range.value[0]);
+      setRightCalendarDate(getNextMonth(range.value[0]));
+    }
     setIsOpen(false);
   };
 
