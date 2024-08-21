@@ -1,0 +1,22 @@
+@use "../../../styles/variables" as v;
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  color: v.$foreground;
+  font-weight: 500;
+
+  .calendar-day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    width: 2rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: v.$secondary;
+      border-radius: 0.25rem;
+    }
+  }
+}

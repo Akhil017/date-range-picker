@@ -1,6 +1,7 @@
+import CalendarDays from "./calendar-days";
 import "./calendar.scss";
 
-const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const WEEKDAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 const MONTHS = [
   "January",
   "February",
@@ -23,10 +24,14 @@ export default function Calendar() {
       <div className="calendar-body">
         <div className="calendar-table-header">
           {WEEKDAYS.map((day) => (
-            <div key={day}>{day}</div>
+            <div key={day} className="calendar-weekday">
+              {day}
+            </div>
           ))}
         </div>
-        <div className="calendar-table-body"></div>
+        <div className="calendar-table-body">
+          <CalendarDays />
+        </div>
       </div>
     </div>
   );

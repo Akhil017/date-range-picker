@@ -1,14 +1,29 @@
 @use "../../styles/variables" as v;
 
 .calendar {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
-  width: 20rem;
-  border: 1px solid red;
+  font-size: 14px;
+
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    padding-block: 0.5rem;
+  }
 
   &-table-header {
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
     color: v.$secondary-foreground;
+    padding-block: 0.5rem;
+  }
+
+  &-weekday {
+    width: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
