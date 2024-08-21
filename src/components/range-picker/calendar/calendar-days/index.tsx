@@ -105,14 +105,17 @@ export default function CalendarDays({ currentDay }: CalendarDaysProps) {
         <div
           key={day.id}
           className={`calendar-day ${
-            day.isSelected && day.isCurrentMonth && "calendar-day-selected"
-          } ${day.isCurrentMonth && "calendar-day-current-month"} ${
-            day.isFrom && day.isCurrentMonth && "calendar-day-from"
-          } ${day.isTo && day.isCurrentMonth && "calendar-day-to"} ${
+            day.isSelected && day.isCurrentMonth ? "calendar-day-selected" : ""
+          } ${day.isCurrentMonth ? "calendar-day-current-month" : ""} ${
+            day.isFrom && day.isCurrentMonth ? "calendar-day-from" : ""
+          } ${day.isTo && day.isCurrentMonth ? "calendar-day-to" : ""} ${
             day.inRange &&
             !day.isWeekend &&
             day.isCurrentMonth &&
-            "calendar-day-inrange"
+            !day.isFrom &&
+            !day.isTo
+              ? "calendar-day-inrange"
+              : ""
           }`}
           onClick={() => {
             handleRangeSelection(day);

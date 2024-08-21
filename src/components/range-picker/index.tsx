@@ -10,7 +10,22 @@ import { getFormattedDate } from "@/utils/helpers";
 
 const defaultFormat = "MM/DD/YYYY";
 
-export default function RangePicker() {
+export type SelectedRangeWithWeekend = [string[], string[]];
+
+export type PredefinedRange = {
+  label: string;
+  value: [Date, Date];
+};
+
+type RangePickerProps = {
+  onOk: (selectedRange: SelectedRangeWithWeekend) => void;
+  predefinedRange?: PredefinedRange[];
+};
+
+export default function RangePicker({
+  onOk,
+  predefinedRange = [],
+}: RangePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [defaultDay, setDefaultDay] = useState(new Date());
   const [selectedRange, setSelectedRange] = useState<SelectedRange>({
@@ -20,6 +35,15 @@ export default function RangePicker() {
 
   const formattedFromDate = getFormattedDate(selectedRange?.from);
   const formattedToDate = getFormattedDate(selectedRange?.to);
+
+  const handlePredefinedRangeClick = (range: PredefinedRange) => {
+    if (!range.value) return;
+    setSelectedRange({
+      from: range.value[0],
+      to: range.value[1],
+    });
+    setIsOpen(false);
+  };
 
   return (
     <RangePickerProvider
@@ -41,9 +65,19 @@ export default function RangePicker() {
             </div>
             <div className="range-picker-popover-footer">
               <div className="range-picker-popover-predefinedrange">
-                predefined
+                {predefinedRange?.length &&
+                  predefinedRange.map((range) => (
+                    <p onClick={() => handlePredefinedRangeClick(range)}>
+                      {range.label}
+                    </p>
+                  ))}
               </div>
-              <button className="range-picker-popover-okbtn">Ok</button>
+              <button
+                className="range-picker-popover-okbtn"
+                onClick={() => onOk()}
+              >
+                Ok
+              </button>
             </div>
           </div>
         )}

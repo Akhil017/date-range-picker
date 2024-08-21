@@ -1,24 +1,24 @@
+import { WEEKDAYS } from "@/utils/constants";
+import { getCurrentDay, getMonthAndYear } from "@/utils/helpers";
 import { useState } from "react";
-import CalendarDays from "./calendar-days";
-import "./calendar.scss";
 import { Icons } from "../../icons";
 import { useRangePickerContext } from "../range-picker-context";
-import { WEEKDAYS } from "@/utils/constants";
-import { getMonthAndYear } from "@/utils/helpers";
+import CalendarDays from "./calendar-days";
+import "./calendar.scss";
 
 type CalendarProps = {
   index: 0 | 1;
 };
 
 export default function Calendar({ index }: CalendarProps) {
-  const { defaultDay } = useRangePickerContext();
-  const [currentDay, setCurrentDay] = useState(
-    new Date(
-      defaultDay.getFullYear(),
-      defaultDay.getMonth() + index,
-      defaultDay.getDay()
-    )
-  );
+  const { defaultDay, selectedRange } = useRangePickerContext();
+
+  const processedCurrentDay =
+    (index === 0
+      ? getCurrentDay(selectedRange?.from)
+      : getCurrentDay(selectedRange?.to)) || getCurrentDay(defaultDay, index);
+
+  const [currentDay, setCurrentDay] = useState(processedCurrentDay!);
 
   console.log({ currentDay });
 

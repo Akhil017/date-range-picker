@@ -39,6 +39,16 @@
       display: flex;
       flex-wrap: wrap;
       gap: 1rem;
+
+      p {
+        font-size: 14px;
+        color: v.$primary;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
     }
 
     &-okbtn {
