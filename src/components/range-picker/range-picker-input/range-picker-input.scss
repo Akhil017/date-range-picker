@@ -1,4 +1,27 @@
 @use "@/styles/variables" as v;
 
 .range-picker-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  position: relative;
+
+  input {
+    flex: 1;
+    height: 2rem;
+    border-radius: 0.5rem;
+    padding-inline: 0.5rem;
+    border: 1px solid v.$border;
+  }
+
+  input:focus {
+    outline: 2px solid v.$ring;
+  }
+
+  svg {
+    position: absolute;
+    right: 4px;
+    color: v.$muted-foreground;
+  }
 }

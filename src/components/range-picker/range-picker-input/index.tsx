@@ -1,4 +1,5 @@
 import { Icons } from "@/components/icons";
+import "./range-picker-input.scss";
 
 export default function RangePickerInput() {
   return (

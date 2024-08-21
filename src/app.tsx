@@ -1,10 +1,11 @@
 import "./app.scss";
-import Calendar from "@/components/range-picker/calendar";
+import RangePicker from "./components/range-picker";
 
 export default function App() {
   return (
     <div className="container">
-      <Calendar />
+      {/* <Calendar /> */}
+      <RangePicker />
     </div>
   );
 }
