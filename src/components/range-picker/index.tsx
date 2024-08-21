@@ -46,6 +46,14 @@ export default function RangePicker({
   const formattedFromDate = getFormattedDate(selectedRange?.from);
   const formattedToDate = getFormattedDate(selectedRange?.to);
 
+  const handleOnOk = (fromDate: Date | null, toDate: Date | null) => {
+    if (fromDate && toDate) {
+      const weekends = getWeekendsByRange(fromDate, toDate);
+      onOk([[getFormattedDate(fromDate), getFormattedDate(toDate)], weekends]);
+    }
+    setIsOpen(false);
+  };
+
   const handlePredefinedRangeClick = (range: PredefinedRange) => {
     if (!range.value) return;
     setSelectedRange({
@@ -63,24 +71,7 @@ export default function RangePicker({
       setLeftCalendarDate(range.value[0]);
       setRightCalendarDate(getNextMonth(range.value[0]));
     }
-    setIsOpen(false);
-  };
-
-  const handleOnOk = () => {
-    if (selectedRange?.from && selectedRange?.to) {
-      const weekends = getWeekendsByRange(
-        selectedRange?.from,
-        selectedRange?.to
-      );
-      onOk([
-        [
-          getFormattedDate(selectedRange.from),
-          getFormattedDate(selectedRange.to),
-        ],
-        weekends,
-      ]);
-    }
-    setIsOpen(false);
+    handleOnOk(range.value[0], range.value[1]);
   };
 
   return (
@@ -146,7 +137,9 @@ export default function RangePicker({
               <button
                 className="range-picker-popover-okbtn"
                 disabled={!selectedRange?.from || !selectedRange?.to}
-                onClick={() => handleOnOk()}
+                onClick={() =>
+                  handleOnOk(selectedRange?.from, selectedRange?.to)
+                }
               >
                 Ok
               </button>
