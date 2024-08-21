@@ -7,8 +7,7 @@ import {
   type SelectedRange,
 } from "./range-picker-context";
 import { getFormattedDate } from "@/utils/helpers";
-
-const defaultFormat = "MM/DD/YYYY";
+import { DEFAULTFORMAT } from "@/utils/constants";
 
 export type SelectedRangeWithWeekend = [string[], string[]];
 
@@ -54,8 +53,8 @@ export default function RangePicker({
         {isOpen && (
           <div className="range-picker-popover">
             <div className="range-picker-popover-header">
-              {formattedFromDate || defaultFormat} -{" "}
-              {formattedToDate || defaultFormat}
+              {formattedFromDate || DEFAULTFORMAT} -{" "}
+              {formattedToDate || DEFAULTFORMAT}
             </div>
             <div>
               <Calendar index={0} />

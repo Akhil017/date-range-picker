@@ -13,3 +13,11 @@ export function getCurrentDay(date: Date | null, index: number = 0) {
   if (!date) return null;
   return new Date(date.getFullYear(), date.getMonth() + index, date.getDay());
 }
+
+export function getNextMonth(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth() + 1, date.getDate());
+}
+
+export function getPreviousMonth(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth() - 1, date.getDate());
+}

@@ -1,5 +1,10 @@
 import { WEEKDAYS } from "@/utils/constants";
-import { getCurrentDay, getMonthAndYear } from "@/utils/helpers";
+import {
+  getCurrentDay,
+  getMonthAndYear,
+  getNextMonth,
+  getPreviousMonth,
+} from "@/utils/helpers";
 import { useState } from "react";
 import { Icons } from "../../icons";
 import { useRangePickerContext } from "../range-picker-context";
@@ -23,23 +28,11 @@ export default function Calendar({ index }: CalendarProps) {
   console.log({ currentDay });
 
   const handlePrevBtnClick = () => {
-    setCurrentDay(
-      new Date(
-        currentDay.getFullYear(),
-        currentDay.getMonth() - 1,
-        currentDay.getDate()
-      )
-    );
+    setCurrentDay(getPreviousMonth(currentDay));
   };
 
   const handleNextBtnClick = () => {
-    setCurrentDay(
-      new Date(
-        currentDay.getFullYear(),
-        currentDay.getMonth() + 1,
-        currentDay.getDate()
-      )
-    );
+    setCurrentDay(getNextMonth(currentDay));
   };
 
   const monthAndYear = getMonthAndYear(currentDay);
