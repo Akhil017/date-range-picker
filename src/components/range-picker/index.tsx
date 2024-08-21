@@ -38,6 +38,10 @@ export default function RangePicker({
     to: null,
   });
 
+  const [inputValue, setInputValue] = useState(
+    `${DEFAULTFORMAT} ~ ${DEFAULTFORMAT}`
+  );
+
   const [leftCalendarDate, setLeftCalendarDate] = useState(new Date());
   const [rightCalendarDate, setRightCalendarDate] = useState(
     getNextMonth(new Date())
@@ -48,9 +52,13 @@ export default function RangePicker({
 
   const handleOnOk = (fromDate: Date | null, toDate: Date | null) => {
     if (fromDate && toDate) {
+      const formattedFromDate = getFormattedDate(fromDate);
+      const formattedToDate = getFormattedDate(toDate);
       const weekends = getWeekendsByRange(fromDate, toDate);
-      onOk([[getFormattedDate(fromDate), getFormattedDate(toDate)], weekends]);
+      onOk([[formattedFromDate, formattedToDate], weekends]);
+      setInputValue(`${formattedFromDate} ~ ${formattedToDate}`);
     }
+
     setIsOpen(false);
   };
 
@@ -79,11 +87,15 @@ export default function RangePicker({
       value={{ defaultDay, setDefaultDay, selectedRange, setSelectedRange }}
     >
       <div className="range-picker">
-        <RangePickerInput onClick={() => setIsOpen((prev) => !prev)} />
+        <RangePickerInput
+          onClick={() => setIsOpen((prev) => !prev)}
+          value={inputValue}
+          setValue={setInputValue}
+        />
         {isOpen && (
           <div className="range-picker-popover">
             <div className="range-picker-popover-header">
-              {formattedFromDate || DEFAULTFORMAT} -{" "}
+              {formattedFromDate || DEFAULTFORMAT} ~{" "}
               {formattedToDate || DEFAULTFORMAT}
             </div>
             <div>
