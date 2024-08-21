@@ -1,3 +1,4 @@
+import { useState } from "react";
 import CalendarDays from "./calendar-days";
 import "./calendar.scss";
 
@@ -18,6 +19,8 @@ const MONTHS = [
 ];
 
 export default function Calendar() {
+  const [currentDay] = useState(new Date());
+
   return (
     <div className="calendar">
       <div className="calendar-header">Aug 2024</div>
@@ -30,7 +33,7 @@ export default function Calendar() {
           ))}
         </div>
         <div className="calendar-table-body">
-          <CalendarDays />
+          <CalendarDays currentDay={currentDay} />
         </div>
       </div>
     </div>

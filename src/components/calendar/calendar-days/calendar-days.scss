@@ -12,11 +12,21 @@
     justify-content: center;
     height: 32px;
     width: 2rem;
+    color: v.$muted-foreground;
     cursor: pointer;
 
     &:hover {
       background-color: v.$secondary;
       border-radius: 0.25rem;
+    }
+
+    &-selected {
+      border-radius: 0.25rem;
+      border: 1px solid v.$primary;
+    }
+
+    &-current-month {
+      color: v.$foreground;
     }
   }
 }
