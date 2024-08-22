@@ -5,8 +5,8 @@ import RangePicker, {
 } from "./components/range-picker";
 
 export default function App() {
-  const handleOk = (data: SelectedRangeWithWeekend) => {
-    console.log({ data });
+  const handleOk = (selectedRange: SelectedRangeWithWeekend) => {
+    console.log(selectedRange);
   };
 
   const predefinedBottomRanges: PredefinedRange[] = [
@@ -48,7 +48,6 @@ export default function App() {
 
   return (
     <div className="container">
-      {/* <Calendar /> */}
       <RangePicker onOk={handleOk} predefinedRange={predefinedBottomRanges} />
     </div>
   );
