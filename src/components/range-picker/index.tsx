@@ -84,7 +84,16 @@ export default function RangePicker({
 
   return (
     <RangePickerProvider
-      value={{ defaultDay, setDefaultDay, selectedRange, setSelectedRange }}
+      value={{
+        defaultDay,
+        setDefaultDay,
+        selectedRange,
+        setSelectedRange,
+        leftCalendarDate,
+        setLeftCalendarDate,
+        rightCalendarDate,
+        setRightCalendarDate,
+      }}
     >
       <div className="range-picker">
         <RangePickerInput
@@ -100,7 +109,9 @@ export default function RangePicker({
             </div>
             <div>
               <Calendar
-                currenDate={leftCalendarDate}
+                type="left"
+                currentDate={leftCalendarDate}
+                setCurrentDate={setLeftCalendarDate}
                 handleNextBtnClick={() => {
                   setLeftCalendarDate(getNextMonth(leftCalendarDate));
                   //check if the difference is 1 if not change right calendar as well
@@ -118,9 +129,12 @@ export default function RangePicker({
                 }}
               />
             </div>
+
             <div>
               <Calendar
-                currenDate={rightCalendarDate}
+                type="right"
+                currentDate={rightCalendarDate}
+                setCurrentDate={setRightCalendarDate}
                 handleNextBtnClick={() => {
                   setRightCalendarDate(getNextMonth(rightCalendarDate));
                 }}

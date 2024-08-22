@@ -5,6 +5,7 @@
   flex-direction: column;
   font-size: v.$font-sm;
   padding: 0.5rem;
+  position: relative;
 
   &-header {
     display: flex;
@@ -44,5 +45,23 @@
     &:hover {
       background-color: v.$secondary;
     }
+  }
+
+  &-month-year {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+
+    &:hover {
+      background-color: v.$secondary;
+      cursor: pointer;
+    }
+  }
+
+  &-year-month-selector {
+    background-color: v.$background;
+    width: 100%;
+    padding: 0.5rem;
+    position: absolute;
+    top: 0px;
   }
 }

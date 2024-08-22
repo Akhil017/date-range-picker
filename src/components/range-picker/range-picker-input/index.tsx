@@ -5,6 +5,7 @@ import "./range-picker-input.scss";
 // import { getFormattedDate } from "@/utils/helpers";
 import { useRangePickerContext } from "../range-picker-context";
 import { DEFAULTFORMAT } from "@/utils/constants";
+import { getNextMonth } from "@/utils/helpers";
 // import { DEFAULTFORMAT } from "@/utils/constants";
 
 type DateRangeInputProps = {
@@ -14,7 +15,12 @@ type DateRangeInputProps = {
 };
 
 const DateRangeInput = ({ onClick, value, setValue }: DateRangeInputProps) => {
-  const { selectedRange, setSelectedRange } = useRangePickerContext();
+  const {
+    selectedRange,
+    setSelectedRange,
+    setLeftCalendarDate,
+    setRightCalendarDate,
+  } = useRangePickerContext();
 
   // const formattedFromDate = getFormattedDate(selectedRange?.from);
   // const formattedToDate = getFormattedDate(selectedRange?.to);
@@ -28,6 +34,8 @@ const DateRangeInput = ({ onClick, value, setValue }: DateRangeInputProps) => {
   const handleClearInput = (e: React.MouseEvent<HTMLElement>) => {
     setSelectedRange({ from: null, to: null });
     setValue(`${DEFAULTFORMAT} ~ ${DEFAULTFORMAT}`);
+    setLeftCalendarDate(new Date());
+    setRightCalendarDate(getNextMonth(new Date()));
     e.stopPropagation();
   };
 

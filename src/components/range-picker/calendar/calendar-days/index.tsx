@@ -69,6 +69,8 @@ export default function CalendarDays({ currentDay }: CalendarDaysProps) {
   }
 
   const handleRangeSelection = (day: Day) => {
+    if (day.isWeekend) return;
+
     if (selectedRange?.from && selectedRange?.to) {
       setSelectedRange({ from: day.date, to: null });
       return;

@@ -51,3 +51,19 @@ export function getWeekendsByRange(dateFrom: Date, dateTo: Date) {
 
   return weekends;
 }
+
+export function checkIsWeekEnd(date: Date) {
+  if (date.getDay() === 0 || date.getDay() === 6) {
+    return true;
+  }
+
+  return false;
+}
+
+export function getNextYear(date: Date) {
+  return new Date(date.getFullYear() + 1, date.getMonth(), date.getDate());
+}
+
+export function getPreviousYear(date: Date) {
+  return new Date(date.getFullYear() - 1, date.getMonth(), date.getDate());
+}

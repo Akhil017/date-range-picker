@@ -10,6 +10,10 @@ type RangePickerContext = {
   setDefaultDay: React.Dispatch<React.SetStateAction<Date>>;
   selectedRange: SelectedRange;
   setSelectedRange: React.Dispatch<React.SetStateAction<SelectedRange>>;
+  leftCalendarDate: Date;
+  setLeftCalendarDate: React.Dispatch<React.SetStateAction<Date>>;
+  rightCalendarDate: Date;
+  setRightCalendarDate: React.Dispatch<React.SetStateAction<Date>>;
 };
 
 const RangePickerContext = createContext<RangePickerContext | null>(null);

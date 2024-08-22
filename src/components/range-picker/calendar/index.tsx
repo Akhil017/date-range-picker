@@ -3,21 +3,35 @@ import { getMonthAndYear } from "@/utils/helpers";
 import { Icons } from "../../icons";
 import CalendarDays from "./calendar-days";
 import "./calendar.scss";
+import { useCallback, useState } from "react";
+import YearMonthSelector from "../year-month-selector";
 
 type CalendarProps = {
-  currenDate: Date;
+  type: "left" | "right";
+  currentDate: Date;
   handleNextBtnClick: () => void;
   handlePrevBtnClick: () => void;
+  setCurrentDate: React.Dispatch<React.SetStateAction<Date>>;
 };
 
 export default function Calendar({
-  currenDate,
+  currentDate,
   handleNextBtnClick,
   handlePrevBtnClick,
+  setCurrentDate,
 }: CalendarProps) {
-  console.log({ currenDate });
+  const [isOpen, setIsOpen] = useState(false);
+  const monthAndYear = getMonthAndYear(currentDate);
 
-  const monthAndYear = getMonthAndYear(currenDate);
+  const handleMonthSelection = useCallback(
+    (index: number) => {
+      setCurrentDate(
+        new Date(currentDate.getFullYear(), index, currentDate.getDate())
+      );
+      setIsOpen(false);
+    },
+    [currentDate]
+  );
 
   return (
     <div className="calendar">
@@ -25,11 +39,29 @@ export default function Calendar({
         <button className="calendar-month-btn" onClick={handlePrevBtnClick}>
           <Icons.prev />
         </button>
-        <p>{monthAndYear}</p>
+        <p
+          onClick={() => setIsOpen((prev) => !prev)}
+          className="calendar-month-year"
+        >
+          {monthAndYear}
+        </p>
+
+        {isOpen && (
+          <div className="calendar-year-month-selector">
+            <YearMonthSelector
+              handleMonthSelection={handleMonthSelection}
+              currentDate={currentDate}
+              setCurrentDate={setCurrentDate}
+              setIsOpen={setIsOpen}
+            />
+          </div>
+        )}
+
         <button className="calendar-month-btn" onClick={handleNextBtnClick}>
           <Icons.next />
         </button>
       </div>
+
       <div className="calendar-body">
         <div className="calendar-table-header">
           {WEEKDAYS.map((day) => (
@@ -39,7 +71,7 @@ export default function Calendar({
           ))}
         </div>
         <div className="calendar-table-body">
-          <CalendarDays currentDay={currenDate} />
+          <CalendarDays currentDay={currentDate} />
         </div>
       </div>
     </div>
