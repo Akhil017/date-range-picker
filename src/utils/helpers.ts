@@ -33,6 +33,7 @@ export function getDifferenceInMonth(dateFrom: Date, dateTo: Date) {
 }
 
 export function getWeekendsByRange(dateFrom: Date, dateTo: Date) {
+  if (!dateFrom || !dateTo) return [];
   const weekends: string[] = [];
   const current = new Date(dateFrom);
   while (current < dateTo) {

@@ -2,11 +2,9 @@ import * as React from "react";
 
 import { Icons } from "@/components/icons";
 import "./range-picker-input.scss";
-// import { getFormattedDate } from "@/utils/helpers";
 import { useRangePickerContext } from "../range-picker-context";
 import { DEFAULTFORMAT } from "@/utils/constants";
 import { getNextMonth } from "@/utils/helpers";
-// import { DEFAULTFORMAT } from "@/utils/constants";
 
 interface DateRangeInputProps extends React.HTMLAttributes<HTMLDivElement> {
   onClick: () => void;
@@ -23,8 +21,6 @@ const DateRangeInput = React.forwardRef<HTMLDivElement, DateRangeInputProps>(
       setRightCalendarDate,
     } = useRangePickerContext();
 
-    const showClose = selectedRange.from && selectedRange.to;
-
     const handleClearInput = (e: React.MouseEvent<HTMLElement>) => {
       setSelectedRange({ from: null, to: null });
       setValue(`${DEFAULTFORMAT} ~ ${DEFAULTFORMAT}`);
@@ -32,6 +28,8 @@ const DateRangeInput = React.forwardRef<HTMLDivElement, DateRangeInputProps>(
       setRightCalendarDate(getNextMonth(new Date()));
       e.stopPropagation();
     };
+
+    const showClose = selectedRange.from && selectedRange.to;
 
     return (
       <div className="range-picker-input" onClick={onClick} ref={ref}>
