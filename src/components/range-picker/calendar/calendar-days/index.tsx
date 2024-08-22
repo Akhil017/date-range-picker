@@ -68,20 +68,23 @@ export default function CalendarDays({ currentDay }: CalendarDaysProps) {
   }
 
   const handleRangeSelection = (day: Day) => {
+    // if weekend dont select
     if (day.isWeekend) return;
 
+    // if range is already selected new selection will ignore the previous selection and new from will be set
     if (selectedRange?.from && selectedRange?.to) {
       setSelectedRange({ from: day.date, to: null });
       return;
     }
 
+    // if from is not being set then set from
     if (selectedRange?.from === null) {
       setSelectedRange((prev) => ({
         ...prev,
         from: day.date,
       }));
     } else {
-      // check if the selected date is greater than from
+      // if the selected date is greater than from then set it as to
       if (selectedRange?.from < day.date) {
         setSelectedRange((prev) => ({
           ...prev,
@@ -89,7 +92,7 @@ export default function CalendarDays({ currentDay }: CalendarDaysProps) {
         }));
       } else {
         // if from greater and to already exist
-        // then from = day
+        // then from = selected date
         // to = from
 
         setSelectedRange((prev) => ({

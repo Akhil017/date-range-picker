@@ -69,6 +69,7 @@ export default function RangePicker({
     };
   }, []);
 
+  // on ok will give the range and weekends as array of array, where first array is range and second array is weekdays
   const handleOnOk = (fromDate: Date | null, toDate: Date | null) => {
     if (fromDate && toDate) {
       const formattedFromDate = getFormattedDate(fromDate);

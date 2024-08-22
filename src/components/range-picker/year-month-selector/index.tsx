@@ -26,6 +26,7 @@ export default function YearMonthSelector({
     setRightCalendarDate,
   } = useRangePickerContext();
 
+  // choose the date according to the type
   const currentDate = type === "left" ? leftCalendarDate : rightCalendarDate;
 
   const currentYear = currentDate.getFullYear();
@@ -57,6 +58,7 @@ export default function YearMonthSelector({
     if (type === "left") {
       setLeftCalendarDate(updatedDate);
       const monthDiff = getDifferenceInMonth(updatedDate, rightCalendarDate);
+      // making sure that bothe left and right calendar have atleast 1 month diff
       if (monthDiff < 1) {
         setRightCalendarDate(getNextMonth(updatedDate));
       }
@@ -66,7 +68,7 @@ export default function YearMonthSelector({
         leftCalendarDate,
         rightCalendarDate
       );
-
+      // making sure that bothe left and right calendar have atleast 1 month diff
       if (monthDiff < 1) {
         setLeftCalendarDate(getPreviousMonth(updatedDate));
       }
