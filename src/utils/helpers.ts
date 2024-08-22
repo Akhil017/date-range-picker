@@ -1,4 +1,4 @@
-import { MONTHS } from "./constants";
+import { DEFAULTFORMAT, MONTHS } from "./constants";
 
 export function getMonthAndYear(date: Date) {
   return `${MONTHS[date.getMonth()]} ${date.getFullYear()}`;
@@ -66,4 +66,16 @@ export function getNextYear(date: Date) {
 
 export function getPreviousYear(date: Date) {
   return new Date(date.getFullYear() - 1, date.getMonth(), date.getDate());
+}
+
+export function getRangePickerTitle(
+  dateFrom: Date | null,
+  dateTo: Date | null
+) {
+  const formattedFromDate = getFormattedDate(dateFrom);
+  const formattedToDate = getFormattedDate(dateTo);
+
+  return `${formattedFromDate || DEFAULTFORMAT} ~ ${
+    formattedToDate || DEFAULTFORMAT
+  }`;
 }

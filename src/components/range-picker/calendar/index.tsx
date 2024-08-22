@@ -1,26 +1,66 @@
 import { WEEKDAYS } from "@/utils/constants";
-import { getMonthAndYear } from "@/utils/helpers";
+import {
+  getDifferenceInMonth,
+  getMonthAndYear,
+  getNextMonth,
+  getPreviousMonth,
+} from "@/utils/helpers";
 import { Icons } from "../../icons";
 import CalendarDays from "./calendar-days";
 import "./calendar.scss";
 import { useState } from "react";
 import YearMonthSelector from "../year-month-selector";
+import { useRangePickerContext } from "../range-picker-context";
 
 type CalendarProps = {
   type: "left" | "right";
-  currentDate: Date;
-  handleNextBtnClick: () => void;
-  handlePrevBtnClick: () => void;
 };
 
-export default function Calendar({
-  currentDate,
-  handleNextBtnClick,
-  handlePrevBtnClick,
-  type,
-}: CalendarProps) {
+export default function Calendar({ type }: CalendarProps) {
+  const {
+    leftCalendarDate,
+    setLeftCalendarDate,
+    rightCalendarDate,
+    setRightCalendarDate,
+  } = useRangePickerContext();
+
+  const currentDate = type === "left" ? leftCalendarDate : rightCalendarDate;
+
   const [isOpen, setIsOpen] = useState(false);
   const monthAndYear = getMonthAndYear(currentDate);
+
+  const handlePrevBtnClick = () => {
+    if (type === "left") {
+      setLeftCalendarDate(getPreviousMonth(leftCalendarDate));
+    } else {
+      setRightCalendarDate(getPreviousMonth(rightCalendarDate));
+      const monthDiff = getDifferenceInMonth(
+        leftCalendarDate,
+        rightCalendarDate
+      );
+      // making sure that left and right calendar have 1 month difference
+      if (monthDiff === 1) {
+        setLeftCalendarDate(getPreviousMonth(leftCalendarDate));
+      }
+    }
+  };
+
+  const handleNextBtnClick = () => {
+    if (type === "right") {
+      setRightCalendarDate(getNextMonth(rightCalendarDate));
+    } else {
+      setLeftCalendarDate(getNextMonth(leftCalendarDate));
+      //check if the difference is 1 if not change right calendar as well
+      const monthDiff = getDifferenceInMonth(
+        leftCalendarDate,
+        rightCalendarDate
+      );
+      // making sure that left and right calendar have 1 month difference
+      if (monthDiff === 1) {
+        setRightCalendarDate(getNextMonth(rightCalendarDate));
+      }
+    }
+  };
 
   return (
     <div className="calendar">

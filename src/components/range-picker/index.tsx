@@ -10,7 +10,7 @@ import {
   getDifferenceInMonth,
   getFormattedDate,
   getNextMonth,
-  getPreviousMonth,
+  getRangePickerTitle,
   getWeekendsByRange,
 } from "@/utils/helpers";
 import { DEFAULTFORMAT } from "@/utils/constants";
@@ -38,6 +38,7 @@ export default function RangePicker({
     to: null,
   });
 
+  //refs to handle popover
   const popoverRef = useRef<ElementRef<"div">>(null);
   const inputRef = useRef<ElementRef<"div">>(null);
 
@@ -45,6 +46,7 @@ export default function RangePicker({
     `${DEFAULTFORMAT} ~ ${DEFAULTFORMAT}`
   );
 
+  // states which handle individual calendars
   const [leftCalendarDate, setLeftCalendarDate] = useState(new Date());
   const [rightCalendarDate, setRightCalendarDate] = useState(
     getNextMonth(new Date())
@@ -67,9 +69,6 @@ export default function RangePicker({
     };
   }, []);
 
-  const formattedFromDate = getFormattedDate(selectedRange?.from);
-  const formattedToDate = getFormattedDate(selectedRange?.to);
-
   const handleOnOk = (fromDate: Date | null, toDate: Date | null) => {
     if (fromDate && toDate) {
       const formattedFromDate = getFormattedDate(fromDate);
@@ -88,6 +87,7 @@ export default function RangePicker({
       from: range.value[0],
       to: range.value[1],
     });
+    //making sure difference between left and right calendar is atleast 1 month
     //check if month diff is greater than 1
     const monthDiff = getDifferenceInMonth(range.value[0], range.value[1]);
 
@@ -100,6 +100,11 @@ export default function RangePicker({
     }
     handleOnOk(range.value[0], range.value[1]);
   };
+
+  const rangePickerTitle = getRangePickerTitle(
+    selectedRange.from,
+    selectedRange.to
+  );
 
   return (
     <RangePickerProvider
@@ -124,50 +129,14 @@ export default function RangePicker({
         {isOpen && (
           <div className="range-picker-popover" ref={popoverRef}>
             <div className="range-picker-popover-header">
-              {formattedFromDate || DEFAULTFORMAT} ~{" "}
-              {formattedToDate || DEFAULTFORMAT}
+              {rangePickerTitle}
             </div>
             <div>
-              <Calendar
-                type="left"
-                currentDate={leftCalendarDate}
-                handleNextBtnClick={() => {
-                  setLeftCalendarDate(getNextMonth(leftCalendarDate));
-                  //check if the difference is 1 if not change right calendar as well
-                  const monthDiff = getDifferenceInMonth(
-                    leftCalendarDate,
-                    rightCalendarDate
-                  );
-
-                  if (monthDiff === 1) {
-                    setRightCalendarDate(getNextMonth(rightCalendarDate));
-                  }
-                }}
-                handlePrevBtnClick={() => {
-                  setLeftCalendarDate(getPreviousMonth(leftCalendarDate));
-                }}
-              />
+              <Calendar type="left" />
             </div>
 
             <div>
-              <Calendar
-                type="right"
-                currentDate={rightCalendarDate}
-                handleNextBtnClick={() => {
-                  setRightCalendarDate(getNextMonth(rightCalendarDate));
-                }}
-                handlePrevBtnClick={() => {
-                  setRightCalendarDate(getPreviousMonth(rightCalendarDate));
-                  const monthDiff = getDifferenceInMonth(
-                    leftCalendarDate,
-                    rightCalendarDate
-                  );
-
-                  if (monthDiff === 1) {
-                    setLeftCalendarDate(getPreviousMonth(leftCalendarDate));
-                  }
-                }}
-              />
+              <Calendar type="right" />
             </div>
             <div className="range-picker-popover-footer">
               <div className="range-picker-popover-predefinedrange">
