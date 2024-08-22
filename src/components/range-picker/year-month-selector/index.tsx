@@ -66,7 +66,7 @@ export default function YearMonthSelector({
         leftCalendarDate,
         rightCalendarDate
       );
-      console.log({ monthDiff });
+
       if (monthDiff < 1) {
         setLeftCalendarDate(getPreviousMonth(updatedDate));
       }

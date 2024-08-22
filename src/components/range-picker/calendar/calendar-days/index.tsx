@@ -27,7 +27,6 @@ export default function CalendarDays({ currentDay }: CalendarDaysProps) {
     1
   );
   const firstDayOfTheMonth = firstDateOfTheMonth.getDay();
-  console.log({ firstDayOfTheMonth });
 
   const calendarDays = [];
 

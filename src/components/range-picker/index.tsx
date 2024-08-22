@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ElementRef, useEffect, useRef, useState } from "react";
 import RangePickerInput from "./range-picker-input";
 import Calendar from "./calendar";
 import "./range-picker.scss";
@@ -38,6 +38,9 @@ export default function RangePicker({
     to: null,
   });
 
+  const popoverRef = useRef<ElementRef<"div">>(null);
+  const inputRef = useRef<ElementRef<"div">>(null);
+
   const [inputValue, setInputValue] = useState(
     `${DEFAULTFORMAT} ~ ${DEFAULTFORMAT}`
   );
@@ -46,6 +49,23 @@ export default function RangePicker({
   const [rightCalendarDate, setRightCalendarDate] = useState(
     getNextMonth(new Date())
   );
+
+  //handle popover outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      event.stopPropagation();
+      if (
+        !popoverRef.current?.contains(event.target as Node) &&
+        !inputRef.current?.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.addEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const formattedFromDate = getFormattedDate(selectedRange?.from);
   const formattedToDate = getFormattedDate(selectedRange?.to);
@@ -69,7 +89,6 @@ export default function RangePicker({
       to: range.value[1],
     });
     //check if month diff is greater than 1
-
     const monthDiff = getDifferenceInMonth(range.value[0], range.value[1]);
 
     if (monthDiff >= 1) {
@@ -97,12 +116,13 @@ export default function RangePicker({
     >
       <div className="range-picker">
         <RangePickerInput
-          onClick={() => setIsOpen((prev) => !prev)}
+          ref={inputRef}
+          onClick={() => setIsOpen(true)}
           value={inputValue}
           setValue={setInputValue}
         />
         {isOpen && (
-          <div className="range-picker-popover">
+          <div className="range-picker-popover" ref={popoverRef}>
             <div className="range-picker-popover-header">
               {formattedFromDate || DEFAULTFORMAT} ~{" "}
               {formattedToDate || DEFAULTFORMAT}
@@ -153,7 +173,10 @@ export default function RangePicker({
               <div className="range-picker-popover-predefinedrange">
                 {predefinedRange?.length &&
                   predefinedRange.map((range) => (
-                    <p onClick={() => handlePredefinedRangeClick(range)}>
+                    <p
+                      onClick={() => handlePredefinedRangeClick(range)}
+                      key={range.label}
+                    >
                       {range.label}
                     </p>
                   ))}
