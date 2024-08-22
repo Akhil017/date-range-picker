@@ -22,13 +22,6 @@ const DateRangeInput = ({ onClick, value, setValue }: DateRangeInputProps) => {
     setRightCalendarDate,
   } = useRangePickerContext();
 
-  // const formattedFromDate = getFormattedDate(selectedRange?.from);
-  // const formattedToDate = getFormattedDate(selectedRange?.to);
-
-  // const processed = `${formattedFromDate || DEFAULTFORMAT} - ${
-  //   formattedToDate || DEFAULTFORMAT
-  // }`;
-
   const showClose = selectedRange.from && selectedRange.to;
 
   const handleClearInput = (e: React.MouseEvent<HTMLElement>) => {

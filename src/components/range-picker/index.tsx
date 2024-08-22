@@ -111,7 +111,6 @@ export default function RangePicker({
               <Calendar
                 type="left"
                 currentDate={leftCalendarDate}
-                setCurrentDate={setLeftCalendarDate}
                 handleNextBtnClick={() => {
                   setLeftCalendarDate(getNextMonth(leftCalendarDate));
                   //check if the difference is 1 if not change right calendar as well
@@ -134,7 +133,6 @@ export default function RangePicker({
               <Calendar
                 type="right"
                 currentDate={rightCalendarDate}
-                setCurrentDate={setRightCalendarDate}
                 handleNextBtnClick={() => {
                   setRightCalendarDate(getNextMonth(rightCalendarDate));
                 }}

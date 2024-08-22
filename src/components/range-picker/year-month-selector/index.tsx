@@ -1,28 +1,77 @@
 import { MONTHS } from "@/utils/constants";
 import "./year-month-selector.scss";
 import { Icons } from "@/components/icons";
-import { getNextYear, getPreviousYear } from "@/utils/helpers";
+import {
+  getDifferenceInMonth,
+  getNextMonth,
+  getNextYear,
+  getPreviousMonth,
+  getPreviousYear,
+} from "@/utils/helpers";
+import { useRangePickerContext } from "../range-picker-context";
 
 type YearMonthSelectorProps = {
-  currentDate: Date;
-  setCurrentDate: React.Dispatch<React.SetStateAction<Date>>;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  handleMonthSelection: (month: number) => void;
+  type: "left" | "right";
 };
 
 export default function YearMonthSelector({
-  currentDate,
-  setCurrentDate,
-  handleMonthSelection,
+  setIsOpen,
+  type,
 }: YearMonthSelectorProps) {
+  const {
+    leftCalendarDate,
+    rightCalendarDate,
+    setLeftCalendarDate,
+    setRightCalendarDate,
+  } = useRangePickerContext();
+
+  const currentDate = type === "left" ? leftCalendarDate : rightCalendarDate;
+
   const currentYear = currentDate.getFullYear();
 
   const handleNextYearBtn = () => {
-    setCurrentDate(getNextYear(currentDate));
+    if (type === "left") {
+      setLeftCalendarDate(getNextYear(currentDate));
+    } else {
+      setRightCalendarDate(getNextYear(currentDate));
+    }
   };
 
   const handlePrevYearBtn = () => {
-    setCurrentDate(getPreviousYear(currentDate));
+    if (type === "left") {
+      setLeftCalendarDate(getPreviousYear(currentDate));
+    } else {
+      setRightCalendarDate(getPreviousYear(currentDate));
+    }
+  };
+
+  const handleMonthSelection = (index: number) => {
+    //if type left check the diff and set the right
+    const updatedDate = new Date(
+      currentDate.getFullYear(),
+      index,
+      currentDate.getDate()
+    );
+
+    if (type === "left") {
+      setLeftCalendarDate(updatedDate);
+      const monthDiff = getDifferenceInMonth(updatedDate, rightCalendarDate);
+      if (monthDiff < 1) {
+        setRightCalendarDate(getNextMonth(updatedDate));
+      }
+    } else {
+      setRightCalendarDate(updatedDate);
+      const monthDiff = getDifferenceInMonth(
+        leftCalendarDate,
+        rightCalendarDate
+      );
+      console.log({ monthDiff });
+      if (monthDiff < 1) {
+        setLeftCalendarDate(getPreviousMonth(updatedDate));
+      }
+    }
+    setIsOpen(false);
   };
 
   return (
